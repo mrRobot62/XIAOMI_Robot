@@ -16,7 +16,7 @@
 <p><h3>Important notes:</h3></p>
 <p>--------------------------------------------------------------------------</p>
 <ol>
-  <li>all commands must be sniffed via Wireshark for you own</li>
+  <li>all commands must be sniffed via Wireshark for you own environment</li>
   <li>if you work with wireshark use this filter to find you own commands</li>
   <ul>
     <li>(data.len == 80 || data.len == 64 || data.len == 96  || data.len == 144) &amp;&amp; (ip.proto == 17)</li>
@@ -59,9 +59,9 @@
 <p>  -------------------------------------------------------------------------------</p>
 <p><br></p>
 <p>############################################################################</p>
-<p><h1>HowTo sniff you XIAOMI robot</h1></p>
+<h1>HowTo sniff your XIAOMI robot</h1>
 <p>############################################################################</p>
-<p>Preconditions:</p>
+<p><b>Preconditions:</b></p>
 <ol>
   <li>download and install "WireShark" on your pc</li>
   <li>download and install "PaketSender" on your pc</li>
@@ -85,7 +85,7 @@
   <li>go to wireshark and stop recording (red square)</li>
   <li>now you should see all packetes from app to robot and answer from robot</li>
   <ul>
-    <li>Short introduction into UDP Packets</li>
+    <li><b>Short introduction into UDP Packets</b></li>
   </ul>
 </ol>
 <p>			PING/CARD command:  Host send every second 80Bytes, Robot return 256 Bytes</p>
