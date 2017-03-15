@@ -1,10 +1,10 @@
-XIAOMI Vaccum cleaner robot
+<h1>XIAOMI Vaccum cleaner robot</h1>
 
 Python script to use this robot
 
---------------------------------------------------------------------------
-Important notes:
---------------------------------------------------------------------------
+--------------------------------------------------------------------------<br>
+Important notes:<br>
+--------------------------------------------------------------------------<br>
 1)  all commands must be sniffed via Wireshark for you own
 2)  if you work with wireshark use this filter to find you own commands
     (data.len == 80 || data.len == 64 || data.len == 96  || data.len == 144) && (ip.proto == 17)
@@ -44,9 +44,9 @@ optional arguments:
 
   -------------------------------------------------------------------------------
 
-############################################################################
-HowTo sniff you XIAOMI robot
-############################################################################
+############################################################################<br>
+<h2>HowTo sniff you XIAOMI robot</h2>
+############################################################################<br>
 Preconditions:
 1)  download and install "WireShark" on your pc
 2)  download and install "PaketSender" on your pc
