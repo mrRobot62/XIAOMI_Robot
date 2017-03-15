@@ -8,12 +8,12 @@
   <meta name="CocoaVersion" content="1504.81">
 </head>
 <body>
-<p><b>XIAOMI Vaccum cleaner robot</b></p>
+<p><h1>XIAOMI Vaccum cleaner robot</h1></p>
 <p><br></p>
 <p>Python script to use this robot</p>
 <p><br></p>
 <p>--------------------------------------------------------------------------</p>
-<p>Important notes:</p>
+<p><h3>Important notes:</h3></p>
 <p>--------------------------------------------------------------------------</p>
 <ol>
   <li>all commands must be sniffed via Wireshark for you own</li>
@@ -59,7 +59,7 @@
 <p>  -------------------------------------------------------------------------------</p>
 <p><br></p>
 <p>############################################################################</p>
-<p><b>HowTo sniff you XIAOMI robot</b></p>
+<p><h1>HowTo sniff you XIAOMI robot</h1></p>
 <p>############################################################################</p>
 <p>Preconditions:</p>
 <ol>
