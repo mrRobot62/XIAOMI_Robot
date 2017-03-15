@@ -3,12 +3,12 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
+  <title><h1>XIAOMI Vaccum cleaner robot</h1></title>
   <meta name="Generator" content="Cocoa HTML Writer">
   <meta name="CocoaVersion" content="1504.81">
 </head>
 <body>
-<p><h1>XIAOMI Vaccum cleaner robot</h1></p>
+<p></p>
 <p><br></p>
 <p>Python script to use this robot</p>
 <p><br></p>
