@@ -63,7 +63,7 @@ def receive_udp():
     global verbose
     pass
 
-def Do_Command(cmd):
+def Do_Command(cmd, wait):
     '''
         create an UDP command for XIAOMI robot
 
@@ -73,28 +73,38 @@ def Do_Command(cmd):
 #    msg = xiaomi_cmd['header']
     msg = ""
     if cmd == "start":
-        msg = msg + xiaomi_cmd['start']
+        msg = xiaomi_cmd['start']
     if cmd == "stop":
-        msg = msg + xiaomi_cmd['stop']
+        msg = xiaomi_cmd['stop']
     if cmd == "home":
-        msg = msg + xiaomi_cmd['home']
+        msg = xiaomi_cmd['home']
     if cmd == "pause":
-        msg = msg + xiaomi_cmd['pause']
+        msg = xiaomi_cmd['pause']
     if cmd == "siltent":
-        msg = msg + xiaomi_cmd['silent']
+        msg = xiaomi_cmd['silent']
     if cmd == "standard":
-        msg = msg + xiaomi_cmd['standard']
+        msg = xiaomi_cmd['standard']
     if cmd == "power":
-        msg = msg + xiaomi_cmd['power']
+        msg = xiaomi_cmd['power']
+    if cmd == "find":
+        msg = xiaomi_cmd['find']
     if cmd == "reset":
-        msg = msg + xiaomi_cmd['power']
+        reset = xiaomi_cmd['reset']
 
     if verbose > 1:
         print ("Do_Command ({})".format(cmd))
 
-    send_udp(msg)
+    # -- sometimes a command will not be accepted
+    # -- to avoid this a reset command at beginning
+    if wait < 1:
+        wait = 0
+    if wait > 60:       # maximum 60 secs wait between a command
+        wait = 60
+    send_udp(xiaomi_cmd['reset'])
     time.sleep(1)
     send_udp(msg)
+    if wait > 0:
+        time.sleep(wait)
     pass
 
 def main():
@@ -107,12 +117,16 @@ def main():
     parser.add_argument('-p','--port',
          action='store_true',
          help='UDP destination port' )
-    parser.add_argument('-c','--cmd',
+    parser.add_argument('-w','--wait',
+         type=int,
+         help='wait in seconds between two commands' )
+
+    parser.add_argument('-c', '--cmd',
          required=True,
          nargs='*',
 #         choices=['stop','start','pause','silent','standard','power','home'],
-         choices=['stop','start','home'],
-         help='XIAOMI command' )
+         choices=['stop','start','home','silent','standard','power','find'],
+         )
     parser.add_argument('-v', '--verbose',
          action='count',
          help='verbose output' )
@@ -121,13 +135,15 @@ def main():
 
     verbose = 0
     command = ""
-
+    wait = 0;
     if args.verbose:
         verbose=args.verbose
     if args.ip:
         UDP_IP = args.ip
     if args.port:
         UDP_PORT = args.port
+    if args.wait:
+        wait = args.wait
     command = args.cmd
 
     msg = "UDP_IP:\t\t{}".format(UDP_IP)
@@ -141,7 +157,8 @@ def main():
     # handle multiple command list
     #-------------------------------------------
     for cmd in command:
-        Do_Command(cmd)
+        Do_Command(cmd, wait)
+        time.sleep(2)
 
     if verbose > 0:
         print "finish"
@@ -157,12 +174,18 @@ os._exit(0)
 '''
 XIAOMI UDP Packets
 
-Topic JOYSTICK
-
+----------------------------------------
+Topic JOYSTICK      in work
+----------------------------------------
+T
 Stop-Condition: HOME than STOP
 
-Start-Sequence - no movement, brush on
-S: 80, R: 64
+after first JOY-START command only every second 144-Bytes JOY-MOVE command
+do something
+
+
+Start-Sequence
+S: 80, R: 64 - brush on, hoover on, no movement
 2131005000000000034c941d58c862458e80867f678cc917fde09b0942fe56ff842ad329ab6c2a936618dbfd35cc0b08b188fb05cc0b349465fe4ce8ad89f9288dfb914bb6bd5c42fbd2642344507e73
 S: 144 - nothing
 21 31 00 90 00 00 00 00 03 4c 94 1d 58 c8 63 2e 4b e6 e9 7d 8a 2d 14 4c ca fc 8d 43 b7 52 98 8f 4a e7 9e 4c cb 6f 0b 7e bc 78 fb db 31 2b ce 22 74 72 d4 a8 c1 b8 0c 39 00 c3 27 af 48 df e7 04 91 f4 57 cc 7b 82 cc cf 83 bc 3d 23 15 3a 42 c7 b1 2d 60 02 fe d0 be 01 f2 24 5e 95 f4 1c 7e 32 b0 68 90 b8 c3 26 5c d9 72 41 63 4e 98 73 ed 96 ba 88 5d d6 e6 e0 9e 41 29 24 60 87 cc 23 af ae e7 a6 b2 d9 0c dd d1 5b 6e 3d 85 57 26 fd 8c e0
