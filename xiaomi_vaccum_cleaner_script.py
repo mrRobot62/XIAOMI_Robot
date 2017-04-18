@@ -2,11 +2,33 @@
 ################################################################
 # XIAOMI vaccum cleaner script
 #
+# Version 1.2
 #
 # (c) LunaX
 # History
+# 17-APR-17   -s --silent command, no output on console (needed for Alexa)
 # 15-MAR-17   commands: "silent, standard, power, find"
 # 13-MAR-17   initial
+#
+# Copyright 2017 Lunax
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is furnished
+# to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+#
 ################################################################
 
 import socket
@@ -14,11 +36,14 @@ import sys,os,time
 import codecs
 import argparse
 
-UDP_IP = '192.168.0.107'
+#
+# change IP to YOUR ip address
+UDP_IP = '192.xxx.xxx.xxx'
 UDP_PORT = 54321
 INET_ADDR = (UDP_IP,UDP_PORT)
 
 verbose = 0
+no_output = False
 xiaomi_cmd = {
 #    "header":"2131005000000000034c941d58",
 # --- alter Stand vor der WLAN Umstellung - funktioniert aber einwandfrei
@@ -39,6 +64,11 @@ xiaomi_cmd = {
     "power":   "2131006000000000034c941d58c85dd2cf7e6464b0b7a0af63978e5d695498aadaeb8666ca0b47290ee5c6ac7cfde4c5760ddf82196016e484bd22137ed47b8121d5a79b19f364a62a363c253bfa5af895f94e1be81e952e965d7aea937a2b55",
 }
 
+def _print_msg(data):
+    global no_output
+    if no_output:
+        print data
+
 def send_udp(udp_msg):
     '''
         send an udp message to ip and port address
@@ -49,14 +79,14 @@ def send_udp(udp_msg):
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.sendto(message_to_send, INET_ADDR)
     except:
-        print "ERROR: UDP send failure - can't establish udp connection"
+        _print_msg("ERROR: UDP send failure - can't establish udp connection")
         os._exit(1);
     finally:
         if verbose > 1:
-            print ("UDP-Dest: \t{0}".format(INET_ADDR))
-            print ("UDP-Message:\t{0}".format(udp_msg))
+            _print_msg ("UDP-Dest: \t{0}".format(INET_ADDR))
+            _print_msg ("UDP-Message:\t{0}".format(udp_msg))
         if verbose > 0:
-            print ("send UDP message")
+            _print_msg ("send UDP message")
     pass
 
 def receive_udp():
@@ -80,7 +110,7 @@ def Do_Command(cmd, wait):
         msg = xiaomi_cmd['home']
     if cmd == "pause":
         msg = xiaomi_cmd['pause']
-    if cmd == "siltent":
+    if cmd == "silent":
         msg = xiaomi_cmd['silent']
     if cmd == "standard":
         msg = xiaomi_cmd['standard']
@@ -92,7 +122,7 @@ def Do_Command(cmd, wait):
         reset = xiaomi_cmd['reset']
 
     if verbose > 1:
-        print ("Do_Command ({})".format(cmd))
+        _print_msg ("Do_Command ({})".format(cmd))
 
     # -- sometimes a command will not be accepted
     # -- to avoid this a reset command at beginning
@@ -108,12 +138,15 @@ def Do_Command(cmd, wait):
     pass
 
 def main():
-    global UDP_IP, UDP_PORT, INET_ADDR, verbose
+    global UDP_IP, UDP_PORT, INET_ADDR, verbose, no_output
     parser = argparse.ArgumentParser(description='XIAOMI vaccum cleaner')
+
+    parser.add_argument('-s,', '--silent',
+        action='store_true',
+        help='silent mode - no output, useful if job run as background process')
     parser.add_argument('-i','--ip',
         action='store_true',
         help='UDP destination ip' )
-
     parser.add_argument('-p','--port',
          action='store_true',
          help='UDP destination port' )
@@ -126,6 +159,7 @@ def main():
          nargs='*',
 #         choices=['stop','start','pause','silent','standard','power','home'],
          choices=['stop','start','home','silent','standard','power','find'],
+         help='XIAOMI command. Possible to use several <commands> => -c start stop'
          )
     parser.add_argument('-v', '--verbose',
          action='count',
@@ -136,6 +170,9 @@ def main():
     verbose = 0
     command = ""
     wait = 0;
+    no_output = False
+    if args.silent:
+        no_output = True
     if args.verbose:
         verbose=args.verbose
     if args.ip:
@@ -150,8 +187,8 @@ def main():
     msg = msg + "\nUDP_PORT:\t{}".format(UDP_PORT)
     msg = msg + "\nCOMMAND:\t{}".format(command)
     msg = msg + "\nVerbose:\t{}".format(verbose)
-    if (verbose > 1):
-        print (msg)
+    if (no_output == False and verbose > 1):
+        _print_msg (msg)
 
     #-------------------------------------------
     # handle multiple command list
@@ -161,7 +198,7 @@ def main():
         time.sleep(2)
 
     if verbose > 0:
-        print "finish"
+        _print_msg ("finish")
 
 #------------------------------------------------------
 if __name__ == '__main__':

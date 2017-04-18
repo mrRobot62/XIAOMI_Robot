@@ -1,0 +1,54 @@
+Ping
+2131005000000000034c941d 58c94303   Daten 64Bytes =>  b2b7dbe38a26d004dd794be3d8663efc1f3a65a3d7482e9d2b3a2a4ef0252365416941b8d1a8e65f68cfd9fdf395ea63349e9880f64bfcda687ad240250dbde6
+      |                  xxxxxxxx
+      |                        |___________> UNIX TimeStamp => 15.3.2017, 14:34:59
+      |_____________________________________> Size of UPD packet => 80Bytes = 0x50
+      
+Start
+                  1
+1 2 3 4 5 6 7 8 9 0 1 2 3 4 5
+2131005000000000034c941d58c84f96   Daten 64Bytes => f10159e5416ab7edb2bcba98dbb72dfc5473f997f04e1c575ccc5d794ff6576072df487b6a7602b15f3087f743f82a2651c61ebf84b9c63b9a41671291bfc51b
+      |                 xxxxxxxx
+      |                         |___________> Timestamp => 14.3.2017, 21:16:22
+      |                    
+      |_____________________________________> Size of UPD packet => 80Bytes = 0x50
+
+
+                           1                             2                             3                             4                             5                             6                             7                             8  
+1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  
+21 31 00 50 00 00 00 00 03 4c 94 1d 58 c8 e5 02 8c e6 fb ad 55 0f 7f 19 7a be f3 b9 70 4b 32 55 8b ec ad c5 8c fd 1f e6 5d c2 f8 5d c2 43 a3 07 71 30 dc 9a 33 10 e8 2c 73 ea 90 4d 61 7c 49 da c9 95 52 33 10 97 37 e3 11 65 4b 78 e2 5e c4 49
+         |                          |--------|  
+         |                          |     
+         |                          |---------------------> From 13-16 (4Bytes) = Unix Timestamp
+         |------------
+
+
+                  1                   2                   3
+1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0
+2131005000000000034c941d58c6652a 
+                        xxxxxxxx -> 4 Bytes Unix Timestamp => 15.03.2017 14:34:59
+                 xxxxxxx----------> 4 Bytes immer 03 4C 94 1D 
+         xxxxxxxx-----------------> 4 Bytes immer 00
+      xx--------------------------> Byte length, wird sowohl von Host als auch von Robot gesetzt
+    xx----------------------------> bei Robot bei nachrichten mit 298 Bytes ist hier 01 und Byte 4 immer 00
+                                    Könnte Signalisieren Daten > 256Bytes
+xxxx------------------------------> Immer gleich, sowohl Host als auch Robot      
+                                
+
+Robot -> Antwort auf RESET
+                  1                   2                   3
+1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0
+2131002000000000034c941d58c65ddeffffffffffffffffffffffffffffffff
+2131002000000000034c941d58c42876ffffffffffffffffffffffffffffffff
+2131002000000000034c941d58c4287effffffffffffffffffffffffffffffff
+                        xxxxxxxx -> Unix Timestamp =>
+                 xxxxxxx----------> 4 Bytes immer 03 4C 94 1D 
+         xxxxxxxx-----------------> 4 Bytes immer 00
+         
+         
+Host -> RESET
+                  1                   2                   3
+21310020ffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+      xx--------------------------> Byte length, wird sowohl von Host als auch von Robot gesetzt
+    xx----------------------------> bei Robot bei nachrichten mit 298 Bytes ist hier 01 und Byte 4 immer 00
+                                    Könnte Signalisieren Daten > 256Bytes
