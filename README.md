@@ -9,6 +9,46 @@
 </head>
 <body>
 <p></p>
+<p>--------------------------------------------------------------------------</p>
+<p><h3>Update: xiaomi_robot.py works with TOKEN - no sniffing needed    </h3></p>
+<p>--------------------------------------------------------------------------</p>
+Please refere to "Ermittlung_TOKEN_DE.pdf" to see, how you can check which token-id your
+robot use
+
+Quick & dirty description:
+<ol>
+<li> reset WLAN from you robot
+<li> robot establish a new AdHoc network "rockrobo....."
+<li> remove robot device in your App on your smartphone
+<li> Alternative 1:
+<li> install python script
+<li> python xiaomi_robot.py -info
+<li> robot answer with a status and the current token (16 Bytes)
+<li> save YOUR token
+<li> if this way didn't work for you go to alternative 2
+<li> Alternative 2:
+<li> open PacketSender
+<li> insert in field Hex: 21 31 00 20 ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+<li> insert a name
+<li> save
+<li> send
+<li> Robot should answer immediately with a status and his token
+<li> Robot answer with : 21 31 00 20 00 00 00 00 03 4C 94 1D 58 FE 4B F2 FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF<br>
+but the FF FF... is exchanged with YOUR Token (16 Bytes)
+<li> copy this 16 bytes and save them - you need it later
+<li> Install python script (works only with Python 2.7)
+<li> maybe you have to install python cryptography library with pip install cryptography
+<li> test if script run without error messages
+<li> python xiaomi_robot.py -h
+<li> you should see a help screen - if yes you won :-)
+<li> Start: python xiaomi_robot.py -ip "ip from your robot" -cmd "start" -token "your token"
+<li> Pause: python xiaomi_robot.py -ip "ip from your robot" -cmd "pause" -token "your token"
+<li> Home: python xiaomi_robot.py -ip "ip from your robot" -cmd "home" -token "your token"
+<li> Good luck and have fun
+</ol>
+
+LunaX 25-MAR-17
+
 <p><br></p>
 <p>Python script to use this robot</p>
 <p><br></p>
