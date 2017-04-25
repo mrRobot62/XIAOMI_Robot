@@ -20,13 +20,14 @@ Quick & dirty description:
 <li> reset WLAN from you robot
 <li> robot establish a new AdHoc network "rockrobo....."
 <li> remove robot device in your App on your smartphone
-<li> Alternative 1:
+<li> <b>Alternative 1:</b>
 <li> install python script
 <li> python xiaomi_robot.py -info
 <li> robot answer with a status and the current token (16 Bytes)
 <li> save YOUR token
 <li> if this way didn't work for you go to alternative 2
-<li> Alternative 2:
+
+<li> <b>Alternative 2:</b>
 <li> open PacketSender
 <li> insert in field Hex: 21 31 00 20 ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
 <li> insert a name
@@ -36,9 +37,11 @@ Quick & dirty description:
 <li> Robot answer with : 21 31 00 20 00 00 00 00 03 4C 94 1D 58 FE 4B F2 FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF<br>
 but the FF FF... is exchanged with YOUR Token (16 Bytes)
 <li> copy this 16 bytes and save them - you need it later
+<li> <b> using the python script </b>
 <li> Install python script (works only with Python 2.7)
 <li> maybe you have to install python cryptography library with pip install cryptography
-<li> test if script run without error messages
+<li> check if pip install libs for python 2.7 and not for 3.5 (=> pip -V)
+<li> test if script run without error messages. If you get error messages normally a lib is missing
 <li> python xiaomi_robot.py -h
 <li> you should see a help screen - if yes you won :-)
 <li> Start: python xiaomi_robot.py -ip "ip from your robot" -cmd "start" -token "your token"
